@@ -1,0 +1,1100 @@
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../assets/fonts/dm-sans-latin-ext.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("../assets/fonts/manrope-latin-ext.woff2") format("woff2");
+}
+:root {
+  --navy: #16223a;
+  --navy-soft: #243452;
+  --blue: #6c63ff;
+  --aqua: #64cdb7;
+  --orange: #ef6c5b;
+  --cream: #f7f2ea;
+  --white: #fff;
+  --text: #1b2538;
+  --muted: #6f7888;
+  --line: #e2e5ed;
+  --container: 1180px;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "DM Sans", Arial, sans-serif;
+  color: var(--text);
+  background: #fff;
+  line-height: 1.6;
+}
+input,
+button,
+select,
+textarea {
+  font: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  border: 0;
+  cursor: pointer;
+}
+/* PRIVREMENI DRAFT CSS — obrisati prije izrade CSS dijela. */
+.destination-card {
+  margin: 18px 0;
+  border: 2px solid #9aa5ad;
+}
+.destination-image-wrap img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+}
+.destination-content {
+  padding: 14px;
+}
+.nav-cta,
+.primary-button,
+.choose-offer-button {
+  display: inline-block;
+  margin: 6px 0;
+  padding: 10px 14px;
+  background: var(--navy);
+  color: #fff;
+}
+.choose-offer-button {
+  width: 100%;
+}
+.search-panel {
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #bbb;
+}
+/* KRAJ PRIVREMENOG DRAFT CSS-a */
+
+@media (max-width: 700px) {
+}
+main {
+    background-color: #f5f7fb;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.site-header {
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 90px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+.navbar {
+    width: 75%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #182239;
+
+    font-family: "Manrope", sans-serif;
+}
+
+
+.navbar .brand-mark {
+    background-color: #665cff;
+    color: white;
+
+    padding: 8px 12px;
+
+    border-radius: 50%;
+}
+
+
+.menu {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    background-color: #f5f5f8;
+
+    border: 1px solid #e4e5eb;
+    border-radius: 30px;
+
+    padding: 5px;
+}
+
+
+.menu a {
+    padding: 8px 18px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    color: #6f7480;
+}
+
+
+.menu a.active {
+    background-color: white;
+    color: #182239;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.nav-cta {
+    background-color: #182239;
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero-section {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(102, 92, 255, 0.18),
+            transparent 35%
+        ),
+        #f7f7ff;
+
+    color: #182239;
+
+    padding-bottom: 70px;
+}
+
+
+/* LIJEVI KRUG */
+
+.hero-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border: 35px solid rgba(88, 200, 193, 0.10);
+
+    border-radius: 50%;
+
+    left: -100px;
+    top: 60px;
+}
+
+
+/* DONJI DESNI KRUG */
+
+.hero-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    background-color: rgba(255, 138, 76, 0.10);
+
+    border-radius: 50%;
+
+    right: -65px;
+    bottom: -40px;
+}
+
+
+.hero-grid {
+    width: 75%;
+
+    margin: 0 auto;
+
+    padding-top: 70px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+
+    gap: 90px;
+}
+
+
+/* =========================
+   HERO TEKST
+========================= */
+
+.hero-copy {
+    width: 50%;
+}
+
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #665cff;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 20px;
+}
+
+
+.eyebrow::before {
+    content: "";
+
+    width: 25px;
+    height: 2px;
+
+    background-color: #665cff;
+}
+
+
+.hero-copy h1 {
+    font-family: "Manrope", sans-serif;
+
+    font-weight: 800;
+
+    font-size: 58px;
+
+    line-height: 1.05;
+
+    color: #182239;
+}
+
+
+.hero-copy h1 span {
+    color: #665cff;
+}
+
+
+.hero-description {
+    color: #7c8190;
+
+    width: 90%;
+
+    padding-top: 20px;
+
+    font-size: 14px;
+}
+
+
+.primary-button {
+    background-color: #182239;
+    color: white;
+
+    border-radius: 10px;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-weight: bold;
+
+    margin-top: 25px;
+
+    padding: 13px 20px;
+}
+
+
+/* =========================
+   HERO BROJEVI
+========================= */
+
+.hero-highlights {
+    display: flex;
+
+    margin-top: 35px;
+
+    border-top: 1px solid #dfe0e8;
+    border-bottom: 1px solid #dfe0e8;
+}
+
+
+.hero-highlights div {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 18px 0;
+}
+
+
+.hero-highlights div + div {
+    border-left: 1px solid #dfe0e8;
+
+    padding-left: 25px;
+}
+
+
+.hero-highlights strong {
+    font-family: "Manrope", sans-serif;
+
+    font-weight: 800;
+
+    font-size: 20px;
+
+    color: #182239;
+}
+
+
+.hero-highlights span {
+    color: #8b8f9b;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   HERO SLIKA
+========================= */
+
+.hero-visual {
+    position: relative;
+
+    width: 480px;
+
+    margin-top: 0;
+}
+
+
+.hero-photo {
+    width: 100%;
+    height: 520px;
+
+    background-image: url("../assets/images/hero-beach.jpg");
+
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 140px 140px 35px 35px;
+}
+
+
+.photo-badge {
+    position: absolute;
+
+    bottom: 25px;
+    left: 25px;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+}
+
+
+.photo-badge span {
+    color: #ff7867;
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+
+.photo-badge strong {
+    color: #182239;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   FLOATING KARTICE
+========================= */
+
+.floating-card {
+    position: absolute;
+
+    background-color: white;
+
+    color: #182239;
+
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 13px 17px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+
+.floating-card small {
+    color: #999daa;
+
+    font-size: 9px;
+}
+
+
+.floating-card div {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 10px;
+}
+
+
+.floating-card-top {
+    top: 80px;
+    right: -45px;
+}
+
+
+.floating-card-bottom {
+    bottom: 80px;
+    right: -35px;
+    left: auto;
+}
+
+
+.floating-icon {
+    width: 34px;
+    height: 34px;
+
+    background-color: #efedff;
+
+    color: #665cff;
+
+    border-radius: 9px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 16px;
+}
+
+
+.avatars {
+    color: #ff7867;
+}
+
+
+/* =========================
+   PONUDE
+========================= */
+
+.offers-section {
+    width: 100%;
+
+    background-color: #f5f7fb;
+
+    padding-top: 70px;
+    padding-bottom: 100px;
+}
+
+
+/* =========================
+   NASLOV PONUDA
+========================= */
+
+.section-label {
+    width: 100%;
+
+    margin-left: 0%;
+
+    font-family: "Manrope", sans-serif;
+
+    color: #665cff;
+
+    font-weight: bold;
+
+    font-size: 8px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+
+.section-label::before {
+    content: "";
+
+    width: 22px;
+    height: 2px;
+
+    background-color: #665cff;
+}
+
+
+.section-heading {
+    width: 57%;
+
+    margin: 8px auto 28px;
+    margin-left: 20%;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+.section-heading h2 {
+    font-family: "Manrope", sans-serif;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    width: 400px;
+
+    line-height: 1.05;
+
+    color: #182239;
+}
+
+
+.section-heading p {
+    width: 280px;
+
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 8px;
+
+    color: #858995;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   FILTER LIJEVO
+========================= */
+
+.search-panel,
+.advanced-filter-panel {
+    position: absolute;
+
+    width: 220px;
+
+    background-color: white;
+
+    color: #182239;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    box-shadow: 0 8px 25px rgba(20, 30, 60, 0.08);
+
+    margin-top: 0;
+
+    left: 19%;
+
+    z-index: 10;
+}
+
+
+.search-intro {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 0 14px 0;
+
+    border-bottom: 1px solid #e5e6eb;
+}
+
+
+.search-intro div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.search-intro span {
+    width: 30px;
+    height: 30px;
+
+    background-color: #efedff;
+
+    color: #665cff;
+
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 12px;
+}
+
+
+.search-intro strong {
+    font-size: 11px;
+}
+
+
+.search-intro small {
+    color: #999da7;
+
+    font-size: 6px;
+}
+
+
+.search-field {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px 0 0;
+
+    border-left: none;
+}
+
+
+.search-field span {
+    color: #666c78;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+
+.search-field input,
+.search-field select {
+    width: 100%;
+
+    padding: 8px;
+
+    border: 1px solid #dedfe6;
+
+    border-radius: 7px;
+
+    background-color: #fafafd;
+
+    color: #182239;
+
+    outline: none;
+
+    font-size: 8px;
+
+    margin-top: 0;
+}
+
+
+/* =========================
+   TOOLBAR DESNO
+========================= */
+
+.offers-toolbar {
+    width: 40%;
+
+    margin-left: 36%;
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: white;
+
+    padding: 8px 12px;
+
+    border: 1px solid #e2e4e9;
+
+    border-radius: 10px;
+}
+
+
+.offers-toolbar span {
+    font-family: "DM Sans", sans-serif;
+
+    font-size: 8px;
+
+    color: #969aa4;
+}
+
+
+.offers-toolbar strong {
+    font-family: "Manrope", sans-serif;
+
+    font-size: 8px;
+
+    color: #182239;
+
+    background-color: transparent;
+
+    padding: 0;
+}
+
+
+.api-status {
+    display: none;
+}
+
+
+/* =========================
+   KARTICE
+========================= */
+
+.destinacije {
+    width: 40%;
+
+    margin-left: 36%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.destination-card {
+    width: 100%;
+
+    min-height: 150px;
+
+    margin: 0;
+
+    display: flex;
+
+    background-color: white;
+
+    border: 1px solid #e2e4e9;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   SLIKA KARTICE
+========================= */
+
+.destination-image-wrap {
+    position: relative;
+
+    width: 40%;
+    height: auto;
+
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+
+    overflow: hidden;
+}
+
+
+.destination-image-wrap img {
+    width: 100%;
+    height: 100%;
+
+    max-height: none;
+
+    object-fit: cover;
+
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+
+.offer-sale {
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    background-color: #ff7867;
+
+    color: white;
+
+    padding: 4px 7px;
+
+    border-radius: 15px;
+
+    font-size: 6px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   SADRŽAJ KARTICE
+========================= */
+
+.destination-content {
+    width: 60%;
+
+    padding: 10px 12px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.destination-title-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
+.destination-kicker {
+    color: #665cff;
+
+    font-size: 6px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+}
+
+
+.destination-title-row h3 {
+    font-family: "Manrope", sans-serif;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    color: #182239;
+
+    line-height: 1.1;
+}
+
+
+.destination-arrow {
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #efedff;
+
+    color: #665cff;
+
+    border-radius: 50%;
+
+    font-size: 9px;
+}
+
+
+.destination-description {
+    margin-top: 4px;
+    margin-bottom: 5px;
+
+    color: #8a8f99;
+
+    font-size: 7px;
+}
+
+
+/* =========================
+   GRADOVI
+========================= */
+
+.offer-cities {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    margin-top: 2px;
+    margin-bottom: 8px;
+}
+
+
+.city-chip {
+    background-color: #eef8f4;
+
+    color: #49846f;
+
+    padding: 2px 5px;
+
+    border-radius: 12px;
+
+    font-size: 5px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.offer-info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 0;
+
+    margin-top: auto;
+
+    padding-top: 7px;
+
+    border-top: 1px solid #e5e6eb;
+}
+
+
+.offer-info-grid div {
+    background-color: transparent;
+
+    border: none;
+
+    border-radius: 0;
+
+    padding: 0;
+}
+
+
+.offer-info-grid span {
+    display: block;
+
+    color: #999da6;
+
+    font-size: 6px;
+}
+
+
+.offer-info-grid strong {
+    display: block;
+
+    color: #182239;
+
+    font-size: 7px;
+
+    font-weight: bold;
+
+    margin-top: 1px;
+}
+
+
+/* =========================
+   DUGME
+========================= */
+
+.choose-offer-button {
+    width: auto;
+
+    align-self: flex-end;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 5px;
+
+    padding: 5px 6px 5px 8px;
+
+    background-color: #182239;
+
+    color: white;
+
+    border-radius: 7px;
+
+    font-size: 7px;
+
+    font-weight: bold;
+}
+
+
+.choose-offer-button span {
+    width: 17px;
+    height: 17px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #27334b;
+
+    border-radius: 4px;
+
+    font-size: 7px;
+}
+
+
+/* DRUGA KARTICA - SLIKA DESNO */
+.destination-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.destination-card:nth-child(even) .destination-image-wrap,
+.destination-card:nth-child(even) .destination-image-wrap img {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
