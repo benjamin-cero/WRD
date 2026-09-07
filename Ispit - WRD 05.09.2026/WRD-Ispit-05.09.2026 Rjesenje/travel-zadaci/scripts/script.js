@@ -206,10 +206,53 @@ function primijeniFiltere() {
   // - maksimalna cijena po osobi iz #filterCijena, prema narednom polasku ponude;
   // - vrijednost 0 znači da cijena nije ograničena;
   // - kombinovati oba uslova, ispisati kartice i osvježiti broj rezultata.
+
+  let pojam = document.getElementById("pretraga-pojam").value.toLowerCase();
+  let maxCijena = Number(document.getElementById("filterCijena").value);
+
+  let kartice = document.querySelectorAll(".destination-card");
+  let brojRezultata = 0;
+
+  for (let i = 0; i < globalPodaci.length; i++) {
+
+    let ponuda = globalPodaci[i];
+
+    let drzava = ponuda.drzava.toLowerCase();
+    let opis = ponuda.opisPonude.toLowerCase();
+    let gradovi = "";
+
+    for (let j = 0; j < ponuda.boravakGradovi.length; j++) {
+      gradovi += ponuda.boravakGradovi[j].nazivGrada.toLowerCase() + " ";
+    }
+
+    let odgovaraTekst =
+      drzava.includes(pojam) ||
+      opis.includes(pojam) ||
+      gradovi.includes(pojam);
+
+    let cijena = Number(ponuda.naredniPolazak.cijenaPoOsobiEur);
+
+    let odgovaraCijena = false;
+
+    if (maxCijena == 0 || cijena <= maxCijena) {
+      odgovaraCijena = true;
+    }
+
+    if (odgovaraTekst == true && odgovaraCijena == true) {
+      kartice[i].style.display = "";
+      brojRezultata++;
+    }
+    else {
+      kartice[i].style.display = "none";
+    }
+  }
+
+  azurirajBrojRezultata(brojRezultata);
 }
 
 function azurirajBrojRezultata(broj) {
   // TODO Z1: prikazati broj rezultata u #rezultatiBroj.
+  document.getElementById("rezultatiBroj").textContent = broj;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -260,12 +303,23 @@ function k2_odaberiDestinaciju(indexPonude) {
 
     // TODO Z2: ovdje izračunati trajanje putovanja iz datumPol i datumPov.
 
+
+    let pol = putovanje.datumPol.split(".");
+    let pov = putovanje.datumPov.split(".");
+
+    let datumPolaska = new Date(pol[2], pol[1] - 1, pol[0]);
+    let datumPovratka = new Date(pov[2], pov[1] - 1, pov[0]);
+
+    let razlika = datumPovratka - datumPolaska;
+
+    let trajanje = parseInt(razlika / (1000 * 60 * 60 * 24));
+
     tabela.innerHTML += `
       <tr id="putovanje-red-${i}">
         <td><strong>#${putovanje.idPutovanje}</strong></td>
         <td>${putovanje.datumPol}</td>
         <td>${putovanje.datumPov}</td>
-        <td>—</td>
+        <td>${trajanje}</td>
         <td>
           <span class="seats-badge ${popunjeno ? "sold-out" : ""}">${slobodnaMjesta}</span>
         </td>
@@ -290,6 +344,18 @@ function k3_odaberiPutovanje(indexPonude, indexPutovanja) {
   // - označiti samo trenutno odabrani red klasom selected-row,
   //   a marker skinuti sa prethodno odabranog reda;
   // - u #statusRezervacije ispisati ID termina i broj slobodnih mjesta.
+
+  odabranoPutovanje = globalPodaci[indexPonude].planiranaPutovanja[indexPutovanja];
+
+  document.querySelectorAll("#putovanjaTabela tr").forEach(x => {
+    x.classList.remove("selected-row");
+  });
+
+  let red = document.getElementById("putovanje-red-" + indexPutovanja);
+  red.classList.add("selected-row");
+
+  postaviStatus("Odabran termin: " + odabranoPutovanje.idPutovanje + ", slobodna mjesta: " + odabranoPutovanje.countSlobodnoMjesta);
+
 }
 
 /* -------------------------------------------------------------------------- */
@@ -299,6 +365,25 @@ function k3_odaberiPutovanje(indexPonude, indexPutovanja) {
 function provjeriBrojPutnika() {
   // TODO Z3/Z5: vratiti prazan string kada je unos ispravan,
   // a tekst greške kada nije.
+  let odrasli = Number(document.getElementById("brojOdraslih").value);
+  let djeca = Number(document.getElementById("brojDjece").value);
+  let ukupno = odrasli + djeca;
+
+  if (odrasli < 1) {
+    return "Mora biti najmanje jedna odrasla osoba. \n";
+  }
+  if (ukupno < 2 || ukupno > 6) {
+    return "Ukupan brooj putnika mora biti od 2 do 5. \n";
+  }
+  if (odabranoPutovanje == null) {
+    return "Putovanje nije odabrano. \n";
+  }
+  if (ukupno > odabranoPutovanje.countSlobodnoMjesta) {
+    return "Nema dovoljno slobodnih mjesta. \n";
+  }
+  if (!Number.isInteger(odrasli) || !Number.isInteger(djeca)) {
+    return "Broj odraslih i djece mora biti cijeli broj. \n";
+  }
   return "";
 }
 
@@ -311,6 +396,113 @@ function k4_promjenaPutnika() {
   // - pri promjeni broja putnika sačuvati ranije unesena imena;
   // - cijena: odrasli 100%, djeca 60% cijene po osobi, + servisna naknada 15 EUR;
   // - prikazati ukupan broj putnika i ukupnu cijenu.
+
+
+  let inputOdrasli = document.getElementById("brojOdraslih");
+  let inputDjeca = document.getElementById("brojDjece");
+  let status = document.getElementById("statusRezervacije");
+
+  let stariOdrasli = [];
+  let staraDjeca = [];
+
+  document.querySelectorAll("#gosti .adult-guest").forEach(x => {
+    stariOdrasli.push(x.value);
+  });
+
+  document.querySelectorAll("#gosti .child-guest").forEach(x => {
+    staraDjeca.push(x.value);
+  });
+
+
+  let greska = provjeriBrojPutnika();
+
+  let odrasli = Number(document.getElementById("brojOdraslih").value);
+  let djeca = Number(document.getElementById("brojDjece").value);
+  let ukupno = odrasli + djeca;
+
+
+  document.getElementById("ukupnoPutnika").value = ukupno;
+
+  if (greska != "") {
+    inputOdrasli.style.backgroundColor = ErrorBackgroundColor;
+    inputDjeca.style.backgroundColor = ErrorBackgroundColor;
+
+    status.textContent = greska;
+    status.classList.remove("status-success");
+    status.classList.add("status-error");
+
+    document.getElementById("ukupnaCijena").value = "";
+    return;
+  }
+
+  inputOdrasli.style.backgroundColor = OkBackgroundColor;
+  inputDjeca.style.backgroundColor = OkBackgroundColor;
+
+  let gosti = document.getElementById("gosti");
+
+  gosti.innerHTML = "";
+
+
+  for (let i = 0; i < odrasli; i++) {
+
+    let kartica = document.createElement("div");
+    kartica.className = "traveler-card odrasli";
+
+    let badge = document.createElement("div");
+    badge.className = "traveler-badge";
+    badge.textContent = "O";
+
+    let input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Odrasla osoba " + (i + 1);
+    input.className = "adult-guest";
+
+    if (stariOdrasli[i] != undefined) {
+      input.value = stariOdrasli[i];
+    }
+
+    kartica.appendChild(badge);
+    kartica.appendChild(input);
+
+    gosti.appendChild(kartica);
+  }
+
+  for (let i = 0; i < djeca; i++) {
+
+    let kartica = document.createElement("div");
+    kartica.className = "traveler-card dijete";
+
+    let badge = document.createElement("div");
+    badge.className = "traveler-badge";
+    badge.textContent = "D";
+
+    let input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Dijete " + (i + 1);
+    input.className = "child-guest";
+
+    if (staraDjeca[i] != undefined) {
+      input.value = staraDjeca[i];
+    }
+
+    kartica.appendChild(badge);
+    kartica.appendChild(input);
+
+    gosti.appendChild(kartica);
+  }
+
+
+  let cijena = Number(odabranoPutovanje.cijenaPoOsobiEur);
+
+  let ukupnaCijena = odrasli * cijena + djeca * (cijena * 0.6) + SERVISNA_NAKNADA;
+
+
+  document.getElementById("ukupnaCijena").value = ukupnaCijena.toFixed(2) + " €";
+
+  status.textContent = "Generisana su polja za " + odrasli + " odraslih i " + djeca + " djece.";
+
+  status.classList.remove("status-error");
+  status.classList.add("status-success");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -339,14 +531,40 @@ function k4_promjenaPutnika() {
 function provjeriPasos() {
   // TODO Z4: format TRV-1234-AB (TRV, crtica, 4 cifre, crtica, 2 velika slova A-Z).
   // Obojati polje i vratiti poruku greške (prazan string kada je ispravno).
-  return "";
+  let pasos = document.getElementById("brojPasosa");
+
+  if (!/^TRV-[0-9]{4}-[A-Z]{2}$/.test(pasos.value)) {
+
+    pasos.style.backgroundColor = ErrorBackgroundColor;
+
+    return "Dokument mora biti u formatu: TRV-1234-AB\n";
+
+  } else {
+
+    pasos.style.backgroundColor = OkBackgroundColor;
+
+    return "";
+  }
 }
 
 function provjeriEmail() {
   // TODO Z4: najmanje 2 mala slova, tačka, najmanje 2 mala slova,
   // opciono 1-2 cifre, znak @, pa domena wrd.ba ili fit.ba.
   // Obojati polje i vratiti poruku greške (prazan string kada je ispravno).
-  return "";
+  let email = document.getElementById("email");
+
+  if (!/^[a-z]{2,}\.[a-z]{2,}[0-9]{0,2}@(wrd\.ba|fit\.ba)$/.test(email.value)) {
+
+    email.style.backgroundColor = ErrorBackgroundColor;
+
+    return "Email mora biti u formatu: ime.prezime@wrd.ba ili ime.prezime12@fit.ba\n";
+
+  } else {
+
+    email.style.backgroundColor = OkBackgroundColor;
+
+    return "";
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -359,11 +577,42 @@ function kreirajObjekatRezervacije() {
   //   imenaGostiju (niz), tipoviGostiju (niz), brojPasosa, email, telefon.
   // imenaGostiju i tipoviGostiju moraju imati isti broj stavki i isti redoslijed.
   // cijenaUkupno mora odgovarati obračunu iz Z3.
-  return {};
+
+  let tipoviPutnika = [];
+  let imena = [];
+  document.querySelectorAll("#gosti input").forEach(x => {
+    imena.push(x.value);
+
+    if (x.classList.contains("adult-guest")) {
+      tipoviPutnika.push("Odrasli")
+    } else if (x.classList.contains("child-guest")) {
+      tipoviPutnika.push("Dijete");
+
+    }
+  });
+
+  let obj = {
+    putovanjeBroj: String(odabranoPutovanje.idPutovanje),
+    destinacijaDrzava: document.querySelector(".selected-card h3").textContent,
+    datumPolaska: odabranoPutovanje.datumPol,
+    cijenaUkupno: Number(document.getElementById("ukupnaCijena").value.replace(" €", "")),
+    imenaGostiju: imena,
+    tipoviGostiju: tipoviPutnika,
+    brojPasosa: document.getElementById("brojPasosa").value,
+    email: document.getElementById("email").value,
+    telefon: document.getElementById("phone").value
+  };
+
+  return obj;
 }
 
 function k5_posalji() {
   let frontendGreskeValidacije = "";
+
+
+  frontendGreskeValidacije = provjeriBrojPutnika();
+  frontendGreskeValidacije = provjeriEmail();
+  frontendGreskeValidacije = provjeriPasos();
 
   // TODO Z5: pozvati sve frontend validacije i skupiti njihove poruke
   // u frontendGreskeValidacije. Ako postoji greška, POST se ne smije izvršiti.
@@ -395,9 +644,9 @@ function k5_posalji() {
       } else {
         messageDanger(
           "Backend validacija:<br><br>" +
-            (Array.isArray(body.spisakGresaka)
-              ? body.spisakGresaka.join("<br>")
-              : "API je odbio podatke."),
+          (Array.isArray(body.spisakGresaka)
+            ? body.spisakGresaka.join("<br>")
+            : "API je odbio podatke."),
         );
       }
     })
